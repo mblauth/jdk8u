@@ -52,6 +52,7 @@ Java_com_sun_security_auth_module_SolarisSystem_getSolarisInfo
     jlong *jgroupsAsArray;
     gid_t *groups;
     jclass cls;
+    struct passwd *pwuidResult;
 
     groups = (gid_t *)calloc(numSuppGroups, sizeof(gid_t));
 
@@ -65,7 +66,8 @@ Java_com_sun_security_auth_module_SolarisSystem_getSolarisInfo
     cls = (*env)->GetObjectClass(env, obj);
 
     memset(pwd_buf, 0, sizeof(pwd_buf));
-    if (getpwuid_r(getuid(), &pwd, pwd_buf, sizeof(pwd_buf)) != NULL &&
+    getpwuid_r(getuid(), &pwd, pwd_buf, sizeof(pwd_buf), &pwuidResult);
+    if (pwuidResult != NULL &&
         getgroups(numSuppGroups, groups) != -1) {
 
         /*
