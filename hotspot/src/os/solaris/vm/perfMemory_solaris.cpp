@@ -453,12 +453,12 @@ static char* get_user_name(uid_t uid) {
 
   char* pwbuf = NEW_C_HEAP_ARRAY(char, bufsize, mtInternal);
 
-#ifdef _GNU_SOURCE
+#if defined(_GNU_SOURCE) || defined(__sun)
   struct passwd* p = NULL;
   int result = getpwuid_r(uid, &pwent, pwbuf, (size_t)bufsize, &p);
-#else  // _GNU_SOURCE
+#else  // _GNU_SOURCE || __sun
   struct passwd* p = getpwuid_r(uid, &pwent, pwbuf, (int)bufsize);
-#endif // _GNU_SOURCE
+#endif // _GNU_SOURCE || __sun
 
   if (p == NULL || p->pw_name == NULL || *(p->pw_name) == '\0') {
     if (PrintMiscellaneous && Verbose) {
