@@ -26,6 +26,15 @@
 # Define library interface.
 
 SUNWprivate_1.1 {
+        global:
+            environ;
+            _environ;
+            __environ_lock;
+            __xargc;
+            __xargv;
+            ___Argv;
+            _start;
+            _lib_version;
 	local:
 	    *;
 };
