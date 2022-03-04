@@ -566,7 +566,7 @@ JVM_handle_solaris_signal(int sig, siginfo_t* info, void* ucVoid,
   // Furthermore, a false-positive should be harmless.
   if (UnguardOnExecutionViolation > 0 &&
       (sig == SIGSEGV || sig == SIGBUS) &&
-      uc->uc_mcontext.gregs[TRAPNO] == T_PGFLT) {  // page fault
+      uc->uc_mcontext.gregs[REG_TRAPNO] == T_PGFLT) {  // page fault
     int page_size = os::vm_page_size();
     address addr = (address) info->si_addr;
     address pc = (address) uc->uc_mcontext.gregs[REG_PC];
@@ -667,7 +667,7 @@ JVM_handle_solaris_signal(int sig, siginfo_t* info, void* ucVoid,
   // frame.
 
   if(! IgnoreLibthreadGPFault) {
-    if (sig == SIGSEGV && uc->uc_mcontext.gregs[TRAPNO] == T_GPFLT) {
+    if (sig == SIGSEGV && uc->uc_mcontext.gregs[REG_TRAPNO] == T_GPFLT) {
       const unsigned char *p =
                         (unsigned const char *) uc->uc_mcontext.gregs[EIP];
 
